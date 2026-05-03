@@ -53,7 +53,7 @@ def product_list(request, category_slug=None):
         products = products.filter(category=category)
 
     return render(request, 'main/product/list.html',
-                  {'catefory': category,
+                  {'category': category,
                    'categories': categories,
                    'products': products})
 
@@ -67,3 +67,23 @@ def product_detail(request, id, slug):
     return render(request, 'main/product/detail.html', {'product': product,
                                                         'related_products' : related_products,
                                                         'cart_product_form': cart_product_form})
+
+def product_list(request, category_slug=None):
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+
+    category = None
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+
+    # ✅ Добавь сортировку
+    sort = request.GET.get('sort', 'name')
+    allowed_sorts = ['name', '-name', 'price', '-price']
+    if sort in allowed_sorts:
+        products = products.order_by(sort)
+
+    return render(request, 'main/product/list.html',
+                  {'category': category,
+                   'categories': categories,
+                   'products': products})

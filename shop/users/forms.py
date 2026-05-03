@@ -79,7 +79,7 @@ class CustomUserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'company', 
-                  'address1', 'address2', 'city', 'contry',
+                  'address1', 'address2', 'city', 'country',
                   'province', 'postal_code', 'phone')
         widgets = {
             'company': forms.EmailInput(attrs={'class': 'dotted-input w-full py-3 text-sm font-medium text-gray-900 placeholder-gray-500', 'placeholder': 'COMPANY'}),
